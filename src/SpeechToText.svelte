@@ -1,3 +1,12 @@
+<style>
+  textarea {
+    width: 600px;
+    max-width: 90%;
+    height: 300px;
+    max-height: 90%;
+  }
+</style>
+
 <script>
   const speechRecognition = window.webkitSpeechRecognition
   const recognition = new speechRecognition()
@@ -26,7 +35,7 @@
   recognition.onresult = event => {
     var current = event.resultIndex
     var transcript = event.results[current][0].transcript
-    content += `${transcript}\n`
+    content = `${transcript}\n\n${content}`
   }
 
   const handleClickStart = () => {
@@ -48,10 +57,12 @@
 
 <textarea value={content} on:change={handleChangeText} />
 
-{#if started}
-  <button on:click={handleClickEnd}>End</button>
-{:else}
-  <button on:click={handleClickStart}>Start</button>
-{/if}
+<div>
+  {#if started}
+    <button on:click={handleClickEnd}>End</button>
+  {:else}
+    <button on:click={handleClickStart}>Start</button>
+  {/if}
+</div>
 
 <p>{instruction}</p>
