@@ -2,6 +2,10 @@
 
 A simple project to demonstrate speech-to-text functionality. Only tested on Chrome.
 
+## Demo
+
+https://laxa88.github.io/svelte-speech-to-text/
+
 ## Get started
 
 Install dependencies:
