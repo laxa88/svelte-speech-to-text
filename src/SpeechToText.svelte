@@ -1,4 +1,9 @@
 <style>
+  select {
+    width: 600px;
+    max-width: 90%;
+  }
+
   textarea {
     width: 600px;
     max-width: 90%;
@@ -8,6 +13,11 @@
 </style>
 
 <script>
+  import locale from 'locale-codes'
+
+  let selected = 'ja-JP' // array works too: ['ja-JP']
+  const languages = locale.all.filter(lang => !!lang.location)
+
   const speechRecognition = window.webkitSpeechRecognition
   const recognition = new speechRecognition()
 
@@ -15,8 +25,7 @@
   let started = false
   let instruction = 'Press the Start button'
 
-  // recognition.lang = ['ja-JP']
-  recognition.lang = 'ja-JP'
+  recognition.lang = selected
   recognition.continuous = true
 
   recognition.onstart = () => {
@@ -25,6 +34,7 @@
 
   recognition.onspeechend = () => {
     recognition.stop()
+    started = false
     instruction = 'Voice recognition stopped'
   }
 
@@ -51,9 +61,27 @@
   const handleChangeText = () => {
     content = ''
   }
+
+  const handleChangeLanguage = () => {
+    console.log('change language: ', selected)
+    recognition.stop()
+    recognition.lang = selected
+  }
 </script>
 
 <h1>Speech to Text</h1>
+
+<div>
+  <select bind:value={selected} on:change={handleChangeLanguage}>
+    {#each languages as lang}
+      <option value={lang.tag}>{lang.name} ({lang.location})</option>
+    {/each}
+  </select>
+</div>
+
+<div>
+  Selected: {selected}
+</div>
 
 <textarea value={content} on:change={handleChangeText} />
 
