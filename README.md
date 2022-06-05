@@ -16,3 +16,4 @@ Run in dev mode:
 npm run dev
 ```
 
+Check `package.json` for more commands.
